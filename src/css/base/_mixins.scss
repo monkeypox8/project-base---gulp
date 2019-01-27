@@ -32,12 +32,6 @@
 	justify-content: center;
 }
 
-@mixin color-square ($sq-radius, $sq-color) {
-	border: $sq-radius solid $sq-color;
-	height: 0;
-	width: 0;
-}
-
 @mixin placeholder {
 	&::-webkit-input-placeholder {@content}
 	&:-moz-placeholder           {@content}
@@ -45,7 +39,7 @@
 	&:-ms-input-placeholder      {@content}
 }
 
-@mixin overflow-horizontal {
+@mixin overflow-vertical {
 	overflow: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
@@ -55,6 +49,33 @@
 	width: 100vw;
 	margin-left: calc(-50vw + 50%);
 	margin-right: calc(-50vw + 50%);
+}
+
+
+// CSS lock mixin, based on https://fvsch.com/code/css-locks/
+// Basically takes a larger font size and a smaller font size and will automatically scale the font-size between the two
+//
+// Usage: @include responsive-font(3rem, 2rem, 1920px, 960px);
+// The mixin will lock the font-size to 3 rem above 1920px, then between 1920px and 960px it will scale from 3rem to 2rem
+// Any screen size below 960px the font gets locked to 2rem
+//
+// Usage: @include responsive-font(3rem, 2rem);
+// The last two params are optional, the mixin defaults to 1440px for large and 960px for small
+//
+// Breakpoints should be set in pixels, font sizes can be set in rems or pixels
+@function parseInt($n) {
+	@return $n / ($n * 0 + 1);
+}
+
+@function unitlessPx($value) {
+	$base-font-size: 16;
+
+	@if unit($value) == "rem" {
+  		@return parseInt($value) * $base-font-size;
+	}
+	@else {
+		@return parseInt($value);
+	}
 }
 
 @mixin responsive-font($font-large, $font-small, $breakpoint-large: 1440px, $breakpoint-small: 375px) {

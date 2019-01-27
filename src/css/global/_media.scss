@@ -1,0 +1,63 @@
+/**
+	* _media.scss
+	*
+	* Images and media
+	*
+*/
+
+
+img {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
+
+svg {
+    display: block;
+    position: relative;
+    top: 0.125em;
+    flex-shrink: 0;
+    height: 1em;
+    width: 1em;
+    fill: currentColor;
+    transition: fill 0.3s ease-in-out;
+}
+
+figure {
+    margin: 0;
+    padding: 0;
+}
+
+.media {
+    position: relative;
+}
+
+.ratio-control {
+    height: 0;
+    padding-bottom: 56.25%;
+    position: relative;
+
+    > img,
+    > video,
+    > iframe {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    > iframe {
+        border: 0;
+        padding: 0;
+        margin: 0 auto;
+        object-fit: contain;
+    }
+}
+
+
+
+//  -----------------------------
+//  Breakpoints
+//  -----------------------------

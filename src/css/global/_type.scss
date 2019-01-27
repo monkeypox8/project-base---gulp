@@ -1,0 +1,122 @@
+/**
+	* _typography.scss
+	*
+	* Base type styles
+	*
+*/
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	margin: 0 0 0.5em;
+}
+
+h1, .h1 {
+	margin: 0;
+	font-weight: 300;
+	text-transform: uppercase;
+	line-height: 1.2;
+}
+
+h2, .h2 {
+	font-weight: 300;
+	margin: 0;
+	text-transform: uppercase;
+	line-height: 1.2;
+}
+
+p, li, dt, dd, td {
+	margin: 0 0 1em;
+}
+
+p {
+	font-size: 1.125rem;
+	font-weight: 300;
+	line-height: 1.5555555556;
+	line-height: calc(14/9);
+}
+
+b, strong {
+	font-weight: bold;
+}
+
+
+fieldset {
+	background: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+// input field placeholders
+::-webkit-input-placeholder {
+	color: $gray-lighter;
+	transition: color 0.15s ease-in-out;
+}
+::placeholder {
+	color: $gray-lighter;
+	transition: color 0.15s ease-in-out;
+}
+:-ms-input-placeholder,
+::-ms-input-placeholder {
+	color: $gray-lighter;
+	transition: color 0.15s ease-in-out;
+}
+
+input, button, select, textarea {
+	font-family: inherit;
+}
+
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=phone],
+input[type=search],
+input[type=password] {
+	background: transparent;
+	border: none;
+
+	&.element-hidden {
+		@include visually-hidden;
+	}
+
+	&:focus {
+		outline: 1px dotted currentColor;
+		outline-offset: -1px;
+	}
+}
+
+.form-group {
+	display: flex;
+	align-items: stretch;
+	justify-content: stretch;
+}
+
+
+.text--light,
+.text--variable {
+	color: $gray-light;
+}
+
+.text--dark {
+	color: $gray-dark;
+}
+
+.screen-reader-text,
+.mobile--hidden {
+	@include visually-hidden;
+}
+
+
+//  -----------------------------
+//  Breakpoints
+//  -----------------------------
+
+@media screen and (min-width: $break--lg) {
+	p {
+		font-size: 1.25rem;
+
+		&.large {
+			font-size: 1.5rem;
+		}
+	}
+}

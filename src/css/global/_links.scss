@@ -1,0 +1,106 @@
+/**
+	* _links.scss
+	*
+	* Button and link styles
+	*
+*/
+
+
+
+a {
+	@include remove-tap-highlight;
+	text-decoration: none;
+	transition: color 0.2s ease-in-out;
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: currentColor;
+        transition: fill $easing--regular;
+	}
+
+    &:focus,
+    &:active {
+		outline: 1px dotted $gray-lighter;
+		outline-offset: 1px;
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+		outline: 1px dotted currentColor;
+		outline-offset: 1px;
+	}
+}
+
+button,
+input[type=submit] {
+    @include remove-tap-highlight;
+	appearance: none;
+	background: transparent;
+	border: none;
+	display: inline-block;
+	cursor: pointer;
+	font-family: inherit;
+	padding: 0;
+
+    &:focus,
+    &:active {
+		outline: 1px dotted currentColor;
+		outline-offset: 1px;
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+		outline: 1px dotted currentColor;
+		outline-offset: 1px;
+	}
+}
+
+.btn {
+	background-color: $gray-xlight;
+	color: $gray-dark;
+	display: inline-block;
+	font-family: $font-bold;
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1;
+	padding: 0.8125rem 1.75rem 0.875rem;
+	transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+
+	&.btn-primary {
+		background-color: $primary;
+		color: #fff;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: darken($primary, 5%);
+		}
+	}
+
+	&.btn-secondary {
+		background-color: $secondary;
+		color: #fff;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: darken($secondary, 5%);
+		}
+	}
+}
+
+
+
+//  -----------------------------
+//  Breakpoints
+//  -----------------------------
+
+@media screen and (min-width: $break--med) {
+}

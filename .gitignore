@@ -1,0 +1,18 @@
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+
+Thumbs.db
+._*
+
+# SASS #
+##########
+.sass-cache
+node_modules
+
+# Config #
+##########
+settings.json
+package-lock.json
+*.map

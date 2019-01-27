@@ -1,0 +1,88 @@
+/**
+	* _mixins.scss
+	*
+	* Mixins and extends
+	*
+*/
+
+
+/* MIXINS
+---------------------- */
+
+@mixin visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}
+
+@mixin remove-tap-highlight() {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@mixin center-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin color-square ($sq-radius, $sq-color) {
+	border: $sq-radius solid $sq-color;
+	height: 0;
+	width: 0;
+}
+
+@mixin placeholder {
+	&::-webkit-input-placeholder {@content}
+	&:-moz-placeholder           {@content}
+	&::-moz-placeholder          {@content}
+	&:-ms-input-placeholder      {@content}
+}
+
+@mixin overflow-horizontal {
+	overflow: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+@mixin full-widthify {
+	width: 100vw;
+	margin-left: calc(-50vw + 50%);
+	margin-right: calc(-50vw + 50%);
+}
+
+@mixin responsive-font($font-large, $font-small, $breakpoint-large: 1440px, $breakpoint-small: 375px) {
+	$large: unitlessPx($font-large);
+	$small: unitlessPx($font-small);
+	$break-large: unitlessPx($breakpoint-large);
+	$break-small: unitlessPx($breakpoint-small);
+	font-size: $font-large;
+
+	@media all and (min-width: #{$break-small}px) and (max-width: #{$break-large - 1}px) {
+		font-size: calc(#{$small}px + #{$large - $small} * (100vw - #{$breakpoint-small}) / (#{$break-large} - #{$break-small}));
+	}
+
+	@media all and (max-width: #{$break-small - 1}px) {
+		font-size: $font-small;
+	}
+}
+
+@mixin textlink-underline($size: 2px, $offset: false) {
+	background-image: linear-gradient(currentColor, currentColor);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	background-size: 0 $size;
+	transition: background-size 0.2s ease-out;
+	@if ($offset) {
+		padding-bottom: $size;
+	}
+	&:hover {
+		background-size: 100% $size;
+	}
+}

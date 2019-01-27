@@ -1,0 +1,84 @@
+/**
+	* _variables.scss
+	*
+	*
+*/
+
+
+//
+// Colors
+//
+
+$off-white: #fafafa;
+$gray: #333;
+$gray-dark: #222;
+$gray-med: #414141;
+$gray-light: #888;
+$gray-lighter: #b6b6b6;
+$gray-xlight: #eee;
+$gray-xxlight: #f8f8f8;
+
+$primary: $gray;
+$secondary: $gray-med;
+
+
+//
+// Fonts
+//
+
+$sans: 'Montserrat', Helvetica, sans-serif;
+$icon: 'icomoon';
+
+$base-font-size: 16px;
+
+$light: 300;
+$normal: 400;
+$bold: 700;
+
+
+//
+// Breakpoints
+//
+$break--2k: 128rem; // 2048px
+$break--xxl: 90rem; // 1440px
+$break--xl: 75rem; // 1200px
+$break--lg: 62rem; // 992px
+$break--medlg: 55rem; // 880px
+$break--tab: 48rem; // 768px
+$break--med: 40rem; // 640px
+$break--sm: 30rem; // 480px
+
+$content-width: 960px;
+$container-width: 1200px;
+
+
+//
+// Padding and margins
+//
+$padding-small: 0.625rem; // 10px
+$padding-base: 0.9375rem; // 15px
+$padding-large: 1.25rem; // 20px
+$padding-xlarge: 1.875rem; // 30px
+
+//
+// Easings
+//
+$ease: ease-in-out;
+$ease--base: 0.2s $ease;
+$ease--quick: 0.15s $ease;
+$easing--bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+$ios: cubic-bezier(0.23,1,0.32,1);  // standard iOS transition timing
+$bounce: cubic-bezier(0.34,1.61,0.7,1);  // slight bounce transition
+
+
+//
+// z-index
+//
+$z--hidden: -1;
+$z--normal: 0;
+$z--plus: 1;
+$z--plusplus: 5;
+
+$z--overlay: 50;
+$z--modal: 100;

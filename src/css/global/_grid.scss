@@ -1,0 +1,54 @@
+/**
+	* _grid.scss
+	*
+	* Grid structure
+	*
+*/
+
+
+.grid {
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.grid--center {
+	align-items: center;
+}
+
+.grid--spacebetween {
+	justify-content: space-between;
+}
+
+.grid-item {
+	flex-grow: 0;
+	flex-shrink: 1;
+}
+
+
+//  -----------------------------
+//  Breakpoints
+//  -----------------------------
+
+@media screen and (min-width: $break--sm) {
+	.grid-item {
+		&.half,
+		&.third {
+			flex-basis: 50%;
+		}
+	}
+}
+
+@media screen and (min-width: $break--medlg) {
+	.grid-item {
+		&.third {
+			flex-basis: 33.33%;
+			flex-basis: calc(100% / 3);
+		}
+
+		&.fourth {
+			flex-basis: 25%;
+		}
+	}
+}

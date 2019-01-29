@@ -5,11 +5,11 @@
 @import "base/mixins";
 
 // Global styling
-// @import "global/container";
-// @import "global/grid";
+@import "global/body";
 @import "global/type";
 @import "global/media";
 @import "global/links";
+@import "global/grid";
 
 // Components & modules
 

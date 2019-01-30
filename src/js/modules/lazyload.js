@@ -1,4 +1,4 @@
-import { convertToArray } from 'util';
+import { convertToArray } from './util';
 
 
 
@@ -32,11 +32,10 @@ function loadImages(images, observer) {
 }
 
 
-export default function() {
+export default function lazyLoadImages() {
 	const imgOptions = {
 		root: null,
-		rootMargin: '10px',
-		threshold: 0.5
+		rootMargin: '10px'
 	};
 
 	// init intersection observers

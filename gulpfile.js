@@ -144,8 +144,8 @@ gulp.task("watch", ["scss", "js"], function() {
 		ghostMode: false,
 		scrollThrottle: 200
 	});
-	gulp.watch("scss/**/*", ["scss"]);
-	gulp.watch("js/**/*", ["js"]);
+	gulp.watch("src/css/**/*", ["scss"]);
+	gulp.watch("src/js/**/*", ["js"]);
 });
 
 
@@ -158,7 +158,7 @@ gulp.task("clean", function () {
 
 // Build files for production
 gulp.task("build", ["clean", "compress_scss", "buildjs"], function() {
-	gulp.task("js/**/*", ["buildjs"]);
+	gulp.task("src/js/**/*", ["buildjs"]);
 	gulp.task(mainStylesheet, ["compress_scss"]);
 	console.log('Production build complete!\n');
 });

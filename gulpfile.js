@@ -2,17 +2,17 @@ const themeName = 'main',
 	dest = './',
 	mainStylesheet = 'src/css/style.scss';
 
-const gulp = require("gulp");
-const babel = require('gulp-babel');
-const del = require('del');
-const sass = require("gulp-sass");
-const rename = require('gulp-rename');
+const gulp = require("gulp"),
+	babel = require('gulp-babel'),
+	eslint = require('gulp-eslint'),
+	del = require('del'),
+	sass = require("gulp-sass"),
+	rename = require('gulp-rename');
 	sourcemaps = require('gulp-sourcemaps'),
 	autoprefixer = require("gulp-autoprefixer"),
 	browserSync = require('browser-sync').create(),
 	rollup = require('gulp-better-rollup'),
 	minify = require('gulp-babel-minify'),
-	// alias = require('rollup-plugin-alias'),
 	resolve = require('rollup-plugin-node-resolve'),
 	commonjs = require('rollup-plugin-commonjs'),
 	rootImport = require('rollup-plugin-root-import'),
@@ -53,7 +53,7 @@ gulp.task("compress_scss", function() {
 
 
 // Compile JS
-gulp.task('js', function () {
+gulp.task('js', function() {
 	gulp.src('src/js/main.js')
 		.pipe(sourcemaps.init())
 		.pipe(rollup({
@@ -67,29 +67,19 @@ gulp.task('js', function () {
 					useEntry: 'prepend',
 					extensions: '.js'
 				}),
-				replace({
-					'process.env.NODE_ENV': JSON.stringify('production')
-				}),
-				babel({
-					exclude: 'node_modules/**',
-					presets: [['env', {
-						"modules": false,
-						"debug": true
-					}], 'stage-3'],
-					babelrc: false,
-					plugins: ['external-helpers']
-				})
 			]}, {
 			format: 'iife'})
 		).on('error', function(e) {
 			console.log(e);
 			this.emit('end');
 		})
+		.pipe(babel())
 		.pipe(rename(`${themeName}.js`))
 		.pipe(sourcemaps.write('src/maps'))
 		.pipe(gulp.dest(dest))
 		.pipe(browserSync.stream());
 });
+
 
 gulp.task('buildjs', function () {
 	gulp.src('src/js/main.js')
@@ -107,22 +97,14 @@ gulp.task('buildjs', function () {
 				replace({
 					'process.env.NODE_ENV': JSON.stringify('production')
 				}),
-				eslint({}),
-				babel({
-					exclude: 'node_modules/**',
-					presets: [['env', {
-						"modules": false,
-						"debug": true
-					}], 'stage-3'],
-					babelrc: false,
-					plugins: ['external-helpers']
-				})
+				eslint({})
 			]}, {
 			format: 'iife'})
 		).on('error', function(e) {
 			console.log(e);
 			this.emit('end');
 		})
+		.pipe(babel())
 		.pipe(minify({
 			mangle: {
 				keepClassName: true
@@ -152,7 +134,7 @@ gulp.task("watch", ["scss", "js"], function() {
 // Clear development files for production
 gulp.task("clean", function () {
 	console.log('Deleting map files…\n');
-	return del(['maps/**/*.map']);
+	return del(['src/maps/**/*.map']);
 });
 
 

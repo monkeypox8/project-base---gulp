@@ -6,9 +6,9 @@ import { convertToArray } from './util';
 function lazyImgSrc(item) {
 	const src = item.getAttribute('data-src');
 	if (!src) { return; }
-	if (item.tagName === 'VIDEO') {
+	if (item.tagName === 'VIDEO') {  // video elements
 		item.poster = src;
-	} else {
+	} else {  // all other images
 		item.src = src;
 	}
 }

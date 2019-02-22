@@ -3,24 +3,20 @@ const themeName = 'main',
 	mainStylesheet = 'src/css/style.scss';
 
 const gulp = require("gulp"),
-	babel = require('gulp-babel'),
-	eslint = require('gulp-eslint'),
-	del = require('del'),
-	sass = require("gulp-sass"),
-	rename = require('gulp-rename');
-	sourcemaps = require('gulp-sourcemaps'),
 	autoprefixer = require("gulp-autoprefixer"),
+	babel = require('gulp-babel'),
 	browserSync = require('browser-sync').create(),
-	rollup = require('gulp-better-rollup'),
+	del = require('del'),
+	eslint = require('gulp-eslint'),
+	imagemin = require('gulp-imagemin'),
 	minify = require('gulp-babel-minify'),
-	resolve = require('rollup-plugin-node-resolve'),
-	commonjs = require('rollup-plugin-commonjs'),
-	rootImport = require('rollup-plugin-root-import'),
-	replace = require('rollup-plugin-replace');
+	rename = require('gulp-rename');
+	sass = require("gulp-sass"),
+	sourcemaps = require('gulp-sourcemaps');
 
 
 
-// Compile SCSS files to CSS
+// Concat SCSS files to CSS for development
 gulp.task("scss", function() {
 	gulp.src(mainStylesheet)
 		.pipe(sourcemaps.init())
@@ -52,27 +48,10 @@ gulp.task("compress_scss", function() {
 });
 
 
-// Compile JS
+// Conpile JS for development
 gulp.task('js', function() {
 	gulp.src('src/js/main.js')
 		.pipe(sourcemaps.init())
-		.pipe(rollup({
-			plugins: [
-				resolve({
-					preferBuiltins: false
-				}),
-				commonjs(),
-				rootImport({
-					root: `${__dirname}/src/js`,
-					useEntry: 'prepend',
-					extensions: '.js'
-				}),
-			]}, {
-			format: 'iife'})
-		).on('error', function(e) {
-			console.log(e);
-			this.emit('end');
-		})
 		.pipe(babel())
 		.pipe(rename(`${themeName}.js`))
 		.pipe(sourcemaps.write('src/maps'))
@@ -81,29 +60,9 @@ gulp.task('js', function() {
 });
 
 
+// Compile JS for production
 gulp.task('buildjs', function () {
 	gulp.src('src/js/main.js')
-		.pipe(rollup({
-			plugins: [
-				resolve({
-					preferBuiltins: false
-				}),
-				commonjs(),
-				rootImport({
-					root: `${__dirname}/src/js`,
-					useEntry: 'prepend',
-					extensions: '.js'
-				}),
-				replace({
-					'process.env.NODE_ENV': JSON.stringify('production')
-				}),
-				eslint({})
-			]}, {
-			format: 'iife'})
-		).on('error', function(e) {
-			console.log(e);
-			this.emit('end');
-		})
 		.pipe(babel())
 		.pipe(minify({
 			mangle: {
@@ -138,8 +97,18 @@ gulp.task("clean", function () {
 });
 
 
+// Minify images
+gulp.task("min_images", function() {
+	gulp.src('src/img/*')
+		.pipe(imagemin([], {
+			verbose: true
+		}))
+		.pipe(gulp.dest('assets/img'));
+});
+
+
 // Build files for production
-gulp.task("build", ["clean", "compress_scss", "buildjs"], function() {
+gulp.task("build", ["clean", "min_images", "compress_scss", "buildjs"], function() {
 	gulp.task("src/js/**/*", ["buildjs"]);
 	gulp.task(mainStylesheet, ["compress_scss"]);
 	console.log('Production build complete!\n');

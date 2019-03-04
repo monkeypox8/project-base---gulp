@@ -1,6 +1,16 @@
 const themeName = 'main',
-	dest = './',
-	mainStylesheet = 'src/css/style.scss';
+	outputCSSName = themeName,  // change this to your output stylesheet filename (optional)
+	outputJSName = themeName,  // change this to your output javascript filename (optional)
+	outputPath = './',  // path to output files
+	stylesPath = 'src/css/',  // path to your style.scss file
+	scriptsPath = 'src/js/',  // path to your main.js file
+	srcMapPath = 'src/maps/',
+	imgPath = 'src/img/',
+	imgOutput = 'assets/img/',
+    mainStylesheet = `${stylesPath}style.scss`,
+	mainScript = `${scriptsPath}main.js`,
+	browserSyncPath = 'http://localhost:8080'; // assumes local development is running with http-server
+
 
 const gulp = require("gulp"),
 	autoprefixer = require("gulp-autoprefixer"),
@@ -15,7 +25,6 @@ const gulp = require("gulp"),
 	sourcemaps = require('gulp-sourcemaps');
 
 
-
 // Concat SCSS files to CSS for development
 gulp.task("scss", function() {
 	gulp.src(mainStylesheet)
@@ -26,9 +35,9 @@ gulp.task("scss", function() {
 		.pipe(autoprefixer({
 			browsers : ["last 20 versions"]
 		}))
-		.pipe(rename(`${themeName}.css`))
-		.pipe(sourcemaps.write('src/maps'))
-		.pipe(gulp.dest(dest))
+		.pipe(rename(`${outputCSSName}.css`))
+		.pipe(sourcemaps.write(srcMapPath))
+		.pipe(gulp.dest(outputPath))
 		.pipe(browserSync.stream());
 });
 
@@ -42,35 +51,34 @@ gulp.task("compress_scss", function() {
 		.pipe(autoprefixer({
 			browsers : ["last 20 versions"]
 		}))
-		.pipe(rename(`${themeName}.css`))
-		.pipe(gulp.dest(dest))
-		.pipe(browserSync.stream());
+		.pipe(rename(`${outputCSSName}.css`))
+		.pipe(gulp.dest(outputPath));
 });
 
 
 // Conpile JS for development
 gulp.task('js', function() {
-	gulp.src('src/js/main.js')
+	gulp.src(mainScript)
 		.pipe(sourcemaps.init())
 		.pipe(babel())
-		.pipe(rename(`${themeName}.js`))
-		.pipe(sourcemaps.write('src/maps'))
-		.pipe(gulp.dest(dest))
+		.pipe(rename(`${outputJSName}.js`))
+		.pipe(sourcemaps.write(srcMapPath))
+		.pipe(gulp.dest(outputPath))
 		.pipe(browserSync.stream());
 });
 
 
 // Compile JS for production
 gulp.task('buildjs', function () {
-	gulp.src('src/js/main.js')
+	gulp.src(mainScript)
 		.pipe(babel())
 		.pipe(minify({
 			mangle: {
 				keepClassName: true
 			}
 		}))
-		.pipe(rename(`${themeName}.js`))
-		.pipe(gulp.dest(dest));
+		.pipe(rename(`${outputJSName}.js`))
+		.pipe(gulp.dest(outputPath));
 });
 
 
@@ -78,37 +86,37 @@ gulp.task('buildjs', function () {
 gulp.task("watch", ["scss", "js"], function() {
 	console.log('Starting dev server…\n');
 	browserSync.init({
-		proxy: 'http://localhost:8080',  // assumes http-server is running @ default port
+		proxy: browserSyncPath,  // assumes http-server is running @ default port
 		open: false,
 		notify: true,
 		reloadOnRestart: true,
 		ghostMode: false,
 		scrollThrottle: 200
 	});
-	gulp.watch("src/css/**/*", ["scss"]);
-	gulp.watch("src/js/**/*", ["js"]);
+	gulp.watch(`${stylesPath}**/*`, ["scss"]);
+	gulp.watch(`${scriptsPath}**/*`, ["js"]);
 });
 
 
 // Clear development files for production
 gulp.task("clean", function () {
 	console.log('Deleting map files…\n');
-	return del(['src/maps/**/*.map']);
+	return del([`${srcMapPath}**/*.map`]);
 });
 
 
 // Minify images
-gulp.task("min_images", function() {
-	gulp.src('src/img/*')
+gulp.task("minify_images", function() {
+	gulp.src(`${imgPath}*`)
 		.pipe(imagemin([], {
 			verbose: true
 		}))
-		.pipe(gulp.dest('assets/img'));
+		.pipe(gulp.dest(imgOutput));
 });
 
 
 // Build files for production
-gulp.task("build", ["clean", "min_images", "compress_scss", "buildjs"], function() {
+gulp.task("build", ["clean", "minify_images", "compress_scss", "buildjs"], function() {
 	gulp.task("src/js/**/*", ["buildjs"]);
 	gulp.task(mainStylesheet, ["compress_scss"]);
 	console.log('Production build complete!\n');

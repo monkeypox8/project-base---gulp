@@ -117,7 +117,7 @@ gulp.task("minify_images", function() {
 
 // Build files for production
 gulp.task("build", ["clean", "minify_images", "compress_scss", "buildjs"], function() {
-	gulp.task("src/js/**/*", ["buildjs"]);
+	gulp.task(`${scriptsPath}**/*`, ["buildjs"]);
 	gulp.task(mainStylesheet, ["compress_scss"]);
 	console.log('Production build complete!\n');
 });

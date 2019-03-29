@@ -14,13 +14,14 @@ const themeName = 'main',
 
 const gulp = require("gulp"),
 	autoprefixer = require("gulp-autoprefixer"),
-	babel = require('gulp-babel'),
+	babel = require('rollup-plugin-babel'),
 	browserSync = require('browser-sync').create(),
 	del = require('del'),
 	eslint = require('gulp-eslint'),
 	imagemin = require('gulp-imagemin'),
 	minify = require('gulp-babel-minify'),
-	rename = require('gulp-rename');
+	rename = require('gulp-rename'),
+	rollup = require('gulp-better-rollup'),
 	sass = require("gulp-sass"),
 	sourcemaps = require('gulp-sourcemaps');
 
@@ -60,7 +61,11 @@ gulp.task("compress_scss", function() {
 gulp.task('js', function() {
 	gulp.src(mainScript)
 		.pipe(sourcemaps.init())
-		.pipe(babel())
+        .pipe(rollup({
+            plugins: [babel()]
+        }, {
+            format: 'iife',
+        }))
 		.pipe(rename(`${outputJSName}.js`))
 		.pipe(sourcemaps.write(srcMapPath))
 		.pipe(gulp.dest(outputPath))
@@ -71,7 +76,11 @@ gulp.task('js', function() {
 // Compile JS for production
 gulp.task('buildjs', function () {
 	gulp.src(mainScript)
-		.pipe(babel())
+		.pipe(rollup({
+			plugins: [babel()]
+		}, {
+			format: 'iife',
+		}))
 		.pipe(minify({
 			mangle: {
 				keepClassName: true
